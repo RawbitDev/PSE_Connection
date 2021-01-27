@@ -11,7 +11,7 @@
 # ------------------------------------------------------------------
 
 VPN="vpn.fbi.h-da.de"	# -- The address of the vpn server
-HOST="" 		# -- The address of the pse server
+HOST="141.100.46.77" 	# -- The address of the pse server
 USER="" 		# -- Your "stdxxxx" username
 PASS_VPN=""		# -- Your "stdxxxx" password
 PASS_SRV=""		# -- Your pse server password
