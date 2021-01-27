@@ -1,0 +1,46 @@
+#!/bin/bash
+# ------------------------------------------------------------------
+# Title:        [connectPSE]
+# Version:      [1.0.0]
+# Author:       [Ramon Walther <Ramon@BetaLabs.io>]
+#
+# Description:  Simple script that first connects via openconnect
+#				to the h-da network and then to the pse server
+#				using ssh. It also runs a additional startup
+#				command on the remote server when connected.
+# ------------------------------------------------------------------
+
+VPN="vpn.fbi.h-da.de"	# -- The address of the vpn server
+HOST="141.100.46.77" 	# -- The address of the pse server
+USER="" 				# -- Your "stdxxxx" username
+PASS_VPN=""				# -- Your "stdxxxx" password
+PASS_SRV=""				# -- Your pse server password
+
+STARTUP_CMD="cd /data/2020-10/muenze"
+RETRY_SLEEP=5
+
+function connect() {
+	echo "Connecting to h-da network..."
+	echo $PASS_VPN | sudo openconnect -bq --user=$USER --protocol=gp --passwd-on-stdin $VPN &> /dev/null
+	printf "Waiting for connection to be up"
+	while ! ping -c 1 -n -w 1 $HOST &> /dev/null
+	do
+    		printf "%c" "."
+	done
+	echo -e "\nConnecting to pse server..."
+	until sshpass -p $PASS_SRV ssh -t $USER@$HOST "$STARTUP_CMD; bash -l"
+  	do
+		echo "Connection to pse server failed. Retrying in $RETRY_SLEEP seconds..."
+		sleep $RETRY_SLEEP
+	done
+}
+
+function disconnect() {
+	echo "Disconnecting from h-da network..."
+	sudo killall -q -SIGINT openconnect
+	exit 0
+}
+
+trap "disconnect" 2 # Register cleanup on ctrl+c
+connect
+disconnect
