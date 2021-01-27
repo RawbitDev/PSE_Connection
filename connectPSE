@@ -11,10 +11,10 @@
 # ------------------------------------------------------------------
 
 VPN="vpn.fbi.h-da.de"	# -- The address of the vpn server
-HOST="141.100.46.77" 	# -- The address of the pse server
-USER="" 				# -- Your "stdxxxx" username
-PASS_VPN=""				# -- Your "stdxxxx" password
-PASS_SRV=""				# -- Your pse server password
+HOST="" 		# -- The address of the pse server
+USER="" 		# -- Your "stdxxxx" username
+PASS_VPN=""		# -- Your "stdxxxx" password
+PASS_SRV=""		# -- Your pse server password
 
 STARTUP_CMD="cd /data/2020-10/muenze"
 RETRY_SLEEP=5
