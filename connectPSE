@@ -28,7 +28,7 @@ function connect() {
     		printf "%c" "."
 	done
 	echo -e "\nConnecting to pse server..."
-	until sshpass -p $PASS_SRV ssh -t $USER@$HOST "$STARTUP_CMD; bash -l"
+	until sshpass -p $PASS_SRV ssh -o StrictHostKeyChecking=no -t $USER@$HOST "$STARTUP_CMD; bash -l"
   	do
 		echo "Connection to pse server failed. Retrying in $RETRY_SLEEP seconds..."
 		sleep $RETRY_SLEEP
